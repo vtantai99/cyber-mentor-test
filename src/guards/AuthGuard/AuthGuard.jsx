@@ -1,17 +1,15 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom'
 
 // configs
-import { PATH_NAME } from 'configs';
+import { ROUTES_NAME } from 'Routes/constans'
 
 function AuthGuard({ children }) {
-  const isAuth = false;
+  const isAuth = false
 
-  if(!isAuth) return <Navigate to={PATH_NAME.LANDING} />
+  if (!isAuth) return <Navigate to={ROUTES_NAME.SIGN_IN} />
 
-  return (
-    <>{children}</>
-  )
+  return <>{children}</>
 }
 
 export default AuthGuard

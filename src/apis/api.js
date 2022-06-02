@@ -1,28 +1,32 @@
-import { fetchJSON } from "apis/method";
-import { stringify } from "qs";
-const API = "https://pokeapi.co/api/v2";
-const ListImage = {
-  API_IMAGE_GIF: (id, front) =>
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated${
-      front ? "" : "/back"
-    }/${id}.gif`,
-  API_IMAGE_PNG: (id) =>
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`,
-  API_IMAGE_SVG: (id) =>
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`,
-};
-const ListAPI = {
-  getListPokemonScroll: (offset, limit) => {
-    const params = {
-      offset: offset || 0,
-      limit: limit || 20,
-    };
-    const link = `${API}/pokemon?${stringify(params)}`;
-    return fetchJSON(link);
+import axios from 'axios'
+
+const REACT_APP_API_URL = 'https://jiranew.cybersoft.edu.vn/api'
+const TOKEN_CYBER =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzMkUiLCJIZXRIYW5TdHJpbmciOiIxMC8wNC8yMDIzIiwiSGV0SGFuVGltZSI6IjE2ODEwODQ4MDAwMDAiLCJuYmYiOjE2NTA0NzQwMDAsImV4cCI6MTY4MTIzMjQwMH0._MPzAQorNhL5oVaR3-Az5_jYKW0_Acc0NBq1nZapr5k'
+
+export const axiosClient = axios.create({
+  baseURL: REACT_APP_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    TokenCybersoft: TOKEN_CYBER,
+    Accept: 'application/json'
+  }
+})
+
+axiosClient.interceptors.request.use(async (config) => {
+  // Handle token here ...
+  return config
+})
+axiosClient.interceptors.response.use(
+  (response) => {
+    if (response && response.data) {
+      return response.data
+    }
+    return response
   },
-  getDetailPokemon: (info) => {
-    const link = `${API}/pokemon/${info}`;
-    return fetchJSON(link);
-  },
-};
-export { ListAPI, ListImage };
+  (error) => {
+    // Handle errors
+    throw error
+  }
+)
+export default axiosClient

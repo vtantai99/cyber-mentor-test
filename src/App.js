@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 // routes
-import RoutesMain from 'routes/Routes'
+import RoutesMain from 'Routes'
 
 // hooks
 import { useSafeState } from 'hooks'
