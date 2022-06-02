@@ -9,6 +9,10 @@ class ProjectAPI {
       .post(END_POINT.SIGN_IN, data)
       .then((res) => this.setAuthorization(res.content.accessToken))
   }
+
+  signUp = ({ data }) => {
+    return axiosClient.post(END_POINT.SIGN_UP, data)
+  }
 }
 const projectAPI = new ProjectAPI()
 

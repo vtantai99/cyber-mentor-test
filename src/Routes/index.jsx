@@ -8,13 +8,12 @@ import { PATH_NAME } from 'configs'
 import { MainLayout } from 'Layouts'
 
 // guards
-import AuthGuard from 'guards/AuthGuard'
 import GuestGuard from 'guards/GuestGuard'
 import { ROUTES_NAME } from './constans'
 
 // pages
-const Dashboard = lazy(() => import('Pages/Dashboard'))
 const SignInScreen = lazy(() => import('Pages/sign_in'))
+const SignUpScreen = lazy(() => import('Pages/sign_up'))
 const NotFound = lazy(() => import('Pages/NotFound'))
 const routes = [
   {
@@ -27,9 +26,9 @@ const routes = [
     guard: GuestGuard
   },
   {
-    path: PATH_NAME.DASHBOARD,
-    element: Dashboard,
-    guard: AuthGuard
+    path: ROUTES_NAME.SIGN_UP,
+    element: SignUpScreen,
+    guard: GuestGuard
   },
   {
     path: '*',
