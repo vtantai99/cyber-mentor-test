@@ -1,7 +1,7 @@
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Button, Input, Table, Tooltip } from 'antd'
 import { projectAPI } from 'APIS'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES_NAME } from 'Routes/constans'
 import { SearchHeader, TableWrapper } from './styled'

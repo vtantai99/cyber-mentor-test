@@ -14,7 +14,7 @@ const SignInScreen = lazy(() => import('Pages/sign_in'))
 const SignUpScreen = lazy(() => import('Pages/sign_up'))
 const CreateProjectScreen = lazy(() => import('Pages/create_project'))
 const ProjectsScreen = lazy(() => import('Pages/projects'))
-const NotFound = lazy(() => import('Pages/not_found'))
+const NotFoundScreen = lazy(() => import('Pages/not_found'))
 
 function RoutesMain() {
   const { auth } = useAuth()
@@ -50,7 +50,7 @@ function RoutesMain() {
     },
     {
       path: '*',
-      element: () => <NotFound />
+      element: () => <NotFoundScreen />
     }
   ]
 
