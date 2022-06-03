@@ -1,48 +1,65 @@
 import React, { Fragment, lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-
-// configs
-import { PATH_NAME } from 'configs'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 // layouts
 import { MainLayout } from 'Layouts'
 
 // guards
-import GuestGuard from 'guards/GuestGuard'
 import { ROUTES_NAME } from './constans'
+import { PrivateRoute, PublicRoute } from 'Guards'
+import { useAuth } from 'Hooks'
 
 // pages
 const SignInScreen = lazy(() => import('Pages/sign_in'))
 const SignUpScreen = lazy(() => import('Pages/sign_up'))
-const NotFound = lazy(() => import('Pages/NotFound'))
-const routes = [
-  {
-    path: PATH_NAME.ROOT,
-    element: () => <Navigate to="/dashboard" />
-  },
-  {
-    path: ROUTES_NAME.SIGN_IN,
-    element: SignInScreen,
-    guard: GuestGuard
-  },
-  {
-    path: ROUTES_NAME.SIGN_UP,
-    element: SignUpScreen,
-    guard: GuestGuard
-  },
-  {
-    path: '*',
-    element: () => <NotFound />
-  }
-]
+const CreateProjectScreen = lazy(() => import('Pages/create_project'))
+const ProjectsScreen = lazy(() => import('Pages/projects'))
+const NotFound = lazy(() => import('Pages/not_found'))
 
 function RoutesMain() {
+  const { auth } = useAuth()
+
+  const routes = [
+    {
+      path: ROUTES_NAME.SIGN_IN,
+      element: SignInScreen,
+      title: 'Sign in screen',
+      guard: PublicRoute
+    },
+    {
+      path: ROUTES_NAME.SIGN_UP,
+      element: SignUpScreen,
+      title: 'Sign up screen',
+      guard: PublicRoute
+    },
+    {
+      path: ROUTES_NAME.CREATE_PROJECT,
+      element: CreateProjectScreen,
+      title: 'Create project screen',
+      guard: PrivateRoute
+    },
+    {
+      path: ROUTES_NAME.PROJECTS,
+      title: 'Projects screen',
+      element: ProjectsScreen,
+      guard: PrivateRoute
+    },
+    {
+      path: '/',
+      element: () => auth ? <Navigate to={ROUTES_NAME.PROJECTS} /> : <Navigate to={ROUTES_NAME.SIGN_IN} />
+    },
+    {
+      path: '*',
+      element: () => <NotFound />
+    }
+  ]
+
   return (
     <BrowserRouter>
       <Suspense fallback={<div />}>
         <Routes>
           {routes.map((routeItem, routeIndex) => {
-            let { element, guard, path } = routeItem
+            let { element, guard, path, title } = routeItem
             const Component = element
             const Guard = guard || Fragment
 
@@ -52,7 +69,7 @@ function RoutesMain() {
                 path={path}
                 element={
                   <Guard>
-                    <MainLayout>
+                    <MainLayout title={title}>
                       <Component />
                     </MainLayout>
                   </Guard>

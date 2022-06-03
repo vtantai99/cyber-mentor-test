@@ -1,12 +1,13 @@
 import React from 'react'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, InputNumber } from 'antd'
 import { projectAPI } from 'APIS'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES_NAME } from 'Routes/constans'
 
-const SignUpScreen = () => {
+const CreateProjectScreen = () => {
   const navigate = useNavigate()
-  const onFinish = (data) => projectAPI.signUp({ data }).then(() => navigate(ROUTES_NAME.SIGN_IN))
+
+  const onFinish = (data) => projectAPI.createProject({ data }).then(() => navigate(ROUTES_NAME.PROJECTS))
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
@@ -27,12 +28,12 @@ const SignUpScreen = () => {
       autoComplete="off"
     >
       <Form.Item
-        label="Email"
-        name="email"
+        label="Project name"
+        name="projectName"
         rules={[
           {
             required: true,
-            message: 'Please input your email!'
+            message: 'Please input your project name!'
           }
         ]}
       >
@@ -40,38 +41,38 @@ const SignUpScreen = () => {
       </Form.Item>
 
       <Form.Item
-        label="Password"
-        name="passWord"
+        label="Description"
+        name="description"
         rules={[
           {
             required: true,
-            message: 'Please input your password!'
+            message: 'Please input your description!'
           }
         ]}
       >
-        <Input.Password />
+        <Input.TextArea rows={4} />
       </Form.Item>
 
       <Form.Item
-        label="Name"
-        name="name"
+        label="Category ID"
+        name="categoryId"
         rules={[
           {
             required: true,
-            message: 'Please input your name!'
+            message: 'Please input your category ID!'
           }
         ]}
       >
-        <Input />
+        <InputNumber min={1} max={10} style={{ width: '100%' }} />
       </Form.Item>
 
       <Form.Item
-        label="Phone number"
-        name="phoneNumber"
+        label="Alias"
+        name="alias"
         rules={[
           {
             required: true,
-            message: 'Please input your phone number!'
+            message: 'Please input your alias!'
           }
         ]}
       >
@@ -92,4 +93,4 @@ const SignUpScreen = () => {
   )
 }
 
-export default SignUpScreen
+export default CreateProjectScreen

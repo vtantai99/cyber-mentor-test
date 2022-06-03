@@ -1,15 +1,13 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd'
 import { projectAPI } from 'APIS'
-import axiosClient from 'APIS/api'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES_NAME } from 'Routes/constans'
 
 const SignInScreen = () => {
-  const onFinish = (formData) => {
-    const { email, passWord } = formData
-    projectAPI.signIn({
-      data: { email, passWord }
-    })
-  }
+  const navigate = useNavigate()
+
+  const onFinish = (data) => projectAPI.signIn({ data, navigate })
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo)
@@ -61,8 +59,11 @@ const SignInScreen = () => {
           span: 16
         }}
       >
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" style={{ marginRight: 10 }}>
           Submit
+        </Button>
+        <Button type="default" onClick={() => navigate(ROUTES_NAME.SIGN_UP)}>
+          Sign up
         </Button>
       </Form.Item>
     </Form>
